@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-7-25 15:57:12 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.leafframework.data.dao.orm.TDocReqParam" table="t_doc_req_param" catalog="docdb" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+
+            <generator class="identity" />
+        </id>
+
+        <property name="pathItemId" type="int">
+            <column name="path_item_id" not-null="true">
+                <comment>&#229;&#8230;&#179;&#232;"&#230;&#381;&#165;&#229;&#163;&#229;&#173;&#232;&#161;&#168;&#230;&nbsp;&#8225;&#232;&#175;&#8224;</comment>
+            </column>
+        </property>
+
+        <property name="name" type="string">
+            <column name="name" length="20" not-null="true" />
+        </property>
+
+        <property name="location" type="string">
+            <column name="location" length="128">
+                <comment>"query", "header", "path", "formData" or "body"</comment>
+            </column>
+        </property>
+
+        <property name="description" type="string">
+            <column name="description" length="65535">
+                <comment>&#229;'&#230;&#8226;&#176;&#230;&#232;&#191;&#176;</comment>
+            </column>
+        </property>
+
+        <property name="type" type="string">
+            <column name="type" length="32">
+                <comment>"string", "number", "integer", "boolean", "array" or "file". If type is "file", the consumes MUST be either "multipart/form-data", "
+                application/x-www-form-urlencoded" or both and the parameter MUST be in "formData".</comment>
+            </column>
+        </property>
+
+        <property name="defa" type="string">
+            <column name="defa" length="128">
+                <comment>MimeTypes,&#229;&#164;&#353;&#231;&#167;&#231;&#177;&#187;&#229;&#382;&#8249;&#233;&#8364;-&#229;&#183;&#229;&#710;&#8224;&#233;&#353;"</comment>
+            </column>
+        </property>
+
+        <property name="isrequired" type="java.lang.Boolean">
+            <column name="isrequired" />
+        </property>
+
+        <property name="cut" type="string">
+            <column name="cut" length="128" />
+        </property>
+
+        <property name="refId" type="java.lang.Integer">
+            <column name="ref_id" />
+        </property>
+
+        <property name="isarr" type="java.lang.Boolean">
+            <column name="isarr" />
+        </property>
+
+        <property name="valueMax" type="java.lang.Integer">
+            <column name="value_max" />
+        </property>
+
+        <property name="minValue" type="java.lang.Integer">
+            <column name="min_value" />
+        </property>
+
+        <property name="maxLength" type="java.lang.Integer">
+            <column name="max_length" />
+        </property>
+
+        <property name="minLength" type="java.lang.Integer">
+            <column name="min_length" />
+        </property>
+    </class>
+</hibernate-mapping>
+

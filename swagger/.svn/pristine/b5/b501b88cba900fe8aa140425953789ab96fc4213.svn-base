@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-7-24 17:04:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.leafframework.data.dao.orm.TDoc" table="t_doc" catalog="docdb">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+
+            <generator class="identity" />
+        </id>
+
+        <property name="version" type="string">
+            <column name="version" length="4" />
+        </property>
+
+        <property name="infoId" type="int">
+            <column name="info_id" not-null="true" />
+        </property>
+
+        <property name="host" type="string">
+            <column name="host" length="32" not-null="true" />
+        </property>
+
+        <property name="basePath" type="string">
+            <column name="basePath" length="128" not-null="true" />
+        </property>
+
+        <property name="schemes" type="string">
+            <column name="schemes" length="32" not-null="true">
+                <comment>
+                &#229;&#164;&#353;&#228;&#184;&#170;&#229;&#232;&#174;&#174;&#233;&#8364;-&#229;&#183;&#229;&#710;&#8224;&#233;&#353;",&#229;&#338;&#8230;&#229;&#171;:http, https,
+                ws, wss</comment>
+            </column>
+        </property>
+
+        <property name="externalDoc" type="java.lang.Integer">
+            <column name="external_doc" />
+        </property>
+
+        <property name="securityDefine" type="java.lang.Integer">
+            <column name="security_define" />
+        </property>
+
+        <property name="createTime" type="string">
+            <column name="create_time" length="20" />
+        </property>
+
+        <property name="updateTime" type="string">
+            <column name="update_time" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>
+

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafframework.data.dao.mapper.SwaggerDao">
+    <insert id="insertTag" parameterType="org.leafframework.data.dao.orm.TDocOtherInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `docdb`.`t_doc_tag` ( `doc_id`, `name`, `description`, `show_order`, `create_time`,`update_time`)
+        VALUES (#{docId}, #{name}, #{description},#{showOrder}, #{createTime}, #{updateTime})
+    </insert>
+    <update id="updateTag" parameterType="org.leafframework.data.dao.orm.TDocOtherInfo" >
+        update t_doc_tag set doc_id=#{docId},name=#{name},description=#{description},show_order=#{showOrder}, create_time=#{createTime}, update_time=#{updateTime} where id=#{id}
+    </update>
+    <select id="findMain" parameterType="map" resultType="map">
+        SELECT t_doc.id AS docId, t_doc.host, t_doc.basePath, t_doc.create_time AS createTime, t_doc.update_time AS updateTime, t_doc_info.description, t_doc_info.title, t_doc_contact.name AS contactName
+        FROM t_doc, t_doc_info, t_doc_contact
+        WHERE t_doc.info_id=t_doc_info.id AND t_doc_info.contact_id=t_doc_contact.id AND 1=1
+        <if test="name != null and name != ''"> AND t_doc_contact.name like '%${name}%'</if>
+        <if test="title != null and title != ''" > AND t_doc_info.title like '%${title}%'</if>
+    </select>
+    <select id="getPath" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocPath">
+        SELECT id, doc_id as docId, path
+        FROM t_doc_path
+        WHERE doc_id = #{docId}
+    </select>
+    <select id="getPathItem" parameterType="List" resultType="org.leafframework.data.dao.orm.TDocPathItem">
+        SELECT id, path_id as pathId, protocol, tag_ids as tagIds, summary, description, produces, consumes
+        FROM t_doc_path_item
+        WHERE path_id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getPathItemById" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocPathItem">
+        SELECT id, path_id as pathId, protocol, tag_ids as tagIds, summary, description, operation, produces, consumes, app_protocol AS appProtocol, create_time AS createTime, update_time AS updateTime, inter_code AS interCode
+        FROM t_doc_path_item
+        WHERE id = #{id}
+    </select>
+    <select id="getPathItemByTagIds" parameterType="map" resultType="org.leafframework.data.dao.orm.TDocPathItem">
+        SELECT id, path_id as pathId, protocol, tag_ids as tagIds, summary, description, operation, produces, consumes, app_protocol AS appProtocol, create_time AS createTime, update_time AS updateTime, inter_code AS interCode
+        FROM t_doc_path_item
+        WHERE tag_ids = #{tagIds}
+    </select>
+    <select id="getReqParam" parameterType="List" resultType="org.leafframework.data.dao.orm.TDocReqParam">
+        SELECT id, path_item_id as pathItemId, name, location, description, type, defa, isrequired, cut, ref_id AS  refId, isarr AS isarr, value_max AS valueMax, min_value AS minValue, max_length AS maxLength, min_length AS minLength
+        FROM t_doc_req_param
+        WHERE path_item_id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getReqParamByRef" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocReqParam">
+        SELECT id, path_item_id as pathItemId, name, location, description, type, defa, isrequired, cut, ref_id AS  refId, isarr AS isarr, value_max AS valueMax, min_value AS minValue, max_length AS maxLength, min_length AS minLength
+        FROM t_doc_req_param
+        WHERE ref_id=#{refId}
+    </select>
+    <select id="getTag" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocTag">
+        SELECT id, doc_id as docId, name, description, show_order AS showOrder, create_time AS createTime, update_time AS updateTime
+        FROM t_doc_tag
+        WHERE doc_id = #{docId}
+    </select>
+
+    <select id="getRespParam" parameterType="list" resultType="org.leafframework.data.dao.orm.TDocRespParam">
+        SELECT id, path_item_id as pathItemId, name, description,  type, cut, ref_id AS  refId, isarr AS isarr
+        FROM t_doc_resp_param
+        WHERE path_item_id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getRespParamByRef" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocRespParam">
+        SELECT id, path_item_id as pathItemId, name, description,  type, cut, ref_id AS  refId, isarr AS isarr
+        FROM t_doc_resp_param
+        WHERE ref_id=#{refId}
+    </select>
+    <select id="getUserDefine" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocDefinitions">
+        SELECT id , doc_id as docId, json, create_time AS createTime, update_time AS updateTime, user_code AS userCode, description AS description
+        FROM t_doc_definitions
+        WHERE id = #{refId}
+    </select>
+      <select id="getOtherInfo" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocOtherInfo">
+        SELECT id, path_item_id AS pathItemId, is_arr AS isArr, ref_id AS refId, name, description
+        FROM t_doc_other_info
+        WHERE path_item_id = #{refId}
+    </select>
+    <select id="getOtherInfoByDef" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocOtherInfo">
+        SELECT id, path_item_id AS pathItemId, is_arr AS isArr, ref_id AS refId, name, description
+        FROM t_doc_other_info
+        WHERE ref_id = #{refId}
+    </select>
+    <select id="getUserDefByDocId" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocDefinitions">
+        SELECT id , doc_id as docId, json, create_time AS createTime, update_time AS updateTime, user_code AS userCode, description AS description
+        FROM t_doc_definitions
+        WHERE doc_id = #{refId}
+    </select>
+    <select id="getDefByCode" parameterType="TDocDefinitions" resultType="org.leafframework.data.dao.orm.TDocDefinitions">
+    SELECT id , doc_id as docId, json, create_time AS createTime, update_time AS updateTime, user_code AS userCode, description AS description
+    FROM t_doc_definitions
+    WHERE doc_id=#{docId} AND user_code LIKE '%${userCode}%'
+    </select>
+    <select id="getDocInfo" parameterType="int" resultType="org.leafframework.data.dao.orm.TDocInfo">
+        SELECT id , doc_id as docId, version, contact_id AS contactId, description , title, project
+        FROM t_doc_info
+        WHERE doc_id = #{docid}
+    </select>
+    <select id="getCreateTableInfo" parameterType="string" resultType="map">
+       SHOW CREATE TABLE table #{str}
+    </select>
+    </mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-7-24 17:04:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.leafframework.data.dao.orm.TDocInfo" table="t_doc_info" catalog="docdb">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+
+            <generator class="identity" />
+        </id>
+
+        <property name="version" type="string">
+            <column name="version" length="10" />
+        </property>
+        <property name="project" type="string">
+            <column name="project" length="255" />
+        </property>
+        <property name="docId" type="int">
+            <column name="doc_id" not-null="true">
+                <comment>&#229;&#8230;&#179;&#232;"&#230;-&#8225;&#230;&#161;&#163;&#230;&nbsp;&#8225;&#232;&#175;&#8224;</comment>
+            </column>
+        </property>
+
+        <property name="description" type="string">
+            <column name="description" length="65535" />
+        </property>
+
+        <property name="contactId" type="int">
+            <column name="contact_id" not-null="true" />
+        </property>
+
+        <property name="title" type="string">
+            <column name="title" length="128" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
+
